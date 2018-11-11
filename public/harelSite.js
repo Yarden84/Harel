@@ -68,8 +68,7 @@ $('.submitBtn').click(function () {
     var phoneValid = false;
     var email = document.forms["harelForm"]["email"].value;
     var emailValid = false;
-    var atSign = email.indexOf('@');
-    var dot = email.lastIndexOf(".");
+
 
     if (fullName == "") {
         $('input[name=fullName]').css('background', 'rgb(204, 0, 0)');
@@ -78,14 +77,18 @@ $('.submitBtn').click(function () {
         $('input[name=fullName]').css('background', 'transparent');
         fullNameValid = true;
 
-        if (phone.toString().length !== 10 || phone.toString().charAt(0) !== '0') {
+        if (!((phone.toString().length === 10 && phone.toString().substring(0, 2) === '05') || (phone.toString().length === 9 && phone.toString().charAt(0) === '0' && (phone.toString().charAt(1) === '2' || phone.toString().charAt(1) === '3' || phone.toString().charAt(1) === '4' || phone.toString().charAt(1) === '8' || phone.toString().charAt(1) === '9')))) {
             $('input[name=phone]').css('background', 'rgb(204, 0, 0)');
         }
         else {
             $('input[name=phone]').css('background', 'transparent');
             phoneValid = true;
 
-            if (atSign < 1 || dot < atSign + 2 || dot + 2 > email.length) {
+            function validateEmail(email) {
+                var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i;
+                return re.test(email);
+            }
+            if (!(validateEmail(email))) {
                 $('input[name=email]').css('background', 'rgb(204, 0, 0)');
             }
             else {
